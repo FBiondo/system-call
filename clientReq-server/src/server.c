@@ -1,66 +1,144 @@
-#include <stdlib.h>
 #include <stdio.h>
-#include <sys/sem.h>
-#include "semaphore.h"
-#include "errExit.h"
-#include <unistd.h>
-#include <sys/wait.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <signal.h>
 
+#include "errExit.h"
+#include "request.h"
+#include "respond.h"
 
-// definition of the union semun
+char *path2ServerFIFO ="/tmp/fifo_server";
+char *baseClientFIFO = "/tmp/fifo_client.";
 
+// the file descriptor entry for the FIFO
+int serverFIFO, serverFIFO_extra;
 
-char * FIFOSERVER ="/tmp/FIFOSERVER";
-char * FIFOSCLIENT ="/tmp/FIFOCLIENT";
+char * services[]= {"stampa", "salva","invia"};
 
-int main (int argc, char *argv[]) {
-
-    struct  myRequest request;
-    printf("Hi, I'm Server program!\n");
-    printf("<Server> Making FIFO...\n");
-    // make a FIFO with the following permissions:
-    // user:   READ, write
-    if (mkfifo(FIFOSERVER,  S_IWUSR | S_IRUSR) == -1)
-        errExit("mkfifo failed");
-
-    //SEMAPHORE to manage the request of clientREQ
-    int semid =semget(IPC_PRIVATE,1, IPC_CREAT | S_IWUSR | S_IRUSR);
-    if(semid == -1)
-        errExit("semget failed");
-
-    // inizialize sem=1
-    union semun arg;
-    arg.val=1;
-    if(semctl(semid, /*ignored*/ , SETVAL, arg)== -1)
-        errExit("semctl failed");
-
-    // Wait for clients in read-only mode. The open blocks the calling process
-    // until another process opens the same FIFO in write-only mode
-    printf("<Server> waiting for a client...\n");
-    int fd = open(FIFOSERVER, O_RDONLY);
-    if (fd == -1)
-        errExit("open failed");
-
-
-    printf("<Server> waiting for a req...\n");
-    // Reading  FIFO.
-    int bR = read(fd, &request, sizeof(struct myRequest));
-
-    // Checking  FIFO's data
-    if (bR == -1)
-        printf("<Server> it looks like the FIFO is broken");
-
+// the quit function closes the file descriptors for the FIFO,
+// removes the FIFO from the file system, and terminates the process
+void quit(int sig) {
 
     // Close the FIFO
-    if (close(serverFIFO) != 0)
+    if (serverFIFO != 0 && close(serverFIFO) == -1)
         errExit("close failed");
 
-    printf("<Server> removing FIFO...\n");
+    if (serverFIFO_extra != 0 && close(serverFIFO_extra) == -1)
+        errExit("close failed");
+
     // Remove the FIFO
     if (unlink(path2ServerFIFO) != 0)
         errExit("unlink failed");
+
+    // terminatethe process
+    _exit(0);
 }
+
+void sendResponse(struct Request *request) {
+
+    // make the path of client's FIFO
+    char path2ClientFIFO [100];
+    sprintf(path2ClientFIFO, "%s%d", baseClientFIFO, request.pid);
+
+    printf("<Server> opening FIFO %s...\n", path2ClientFIFO);
+    // Open the client's FIFO in write-only mode
+    int clientFIFO = open(path2ClientFIFO, O_WRONLY);
+    if (clientFIFO == -1) {
+        errExit("<Server> open failed");
+
+    }
+
+    // Prepare the response for the client
+    struct Response response;
+    response.key = getKey(request->user, request->service);
+
+    printf("<Server> sending a response\n");
+    // Write the Response into the opened FIFO
+    if (write(clientFIFO, &response,
+              sizeof(struct Response)) != sizeof(struct Response)) {
+        errExit("<Server> write failed");
+
+    }
+
+    // Close the FIFO
+    if (close(clientFIFO) != 0)
+        printf("<Server> close failed");
+}
+
+
+int main (int argc, char *argv[]) {
+
+    printf("Server program");
+
+    sigset_t mySet;
+    // initialize mySet to contain all signals
+    sigfillset(&mySet);
+    // remove SIGTERM from mySet
+    sigdelset(&mySet, SIGTERM);
+    // blocking all signals but SIGINT
+    sigprocmask(SIG_SETMASK, &mySet, NULL);
+
+    // set the function sigHandler as handler for the signal SIGINT
+    if (signal(SIGTERM, quit) == SIG_ERR)
+        errExit("change signal handler failed");
+
+    printf("<Server> Making FIFO...\n");
+    // make a FIFO with the following permissions:
+    // user:  read, write
+    // group: write
+    // other: no permission
+    if (mkfifo(path2ServerFIFO, S_IRUSR | S_IWUSR | S_IWGRP) == -1)
+        errExit("mkfifo failed");
+
+    printf("<Server> FIFO %s created!\n", path2ServerFIFO);
+
+    // set a signal handler for SIGALRM and SIGINT signals
+    if (signal(SIGALRM, quit) == SIG_ERR ||
+        signal(SIGINT, quit) == SIG_ERR)
+    { errExit("change signal handlers failed"); }
+
+    // setting a 30 seconds alarm
+    alarm(30);
+
+    // Wait for client in read-only mode. The open blocks the calling process
+    // until another process opens the same FIFO in write-only mode
+    printf("<Server> waiting for a client...\n");
+    serverFIFO = open(path2ServerFIFO, O_RDONLY);
+    if (serverFIFO == -1)
+        errExit("open read-only failed");
+
+    // Open an extra descriptor, so that the server does not see end-of-file
+    // even if all clients closed the write end of the FIFO
+    serverFIFO_extra = open(path2ServerFIFO, O_WRONLY);
+    if (serverFIFO_extra == -1)
+        errExit("open write-only failed");
+
+    struct Request request;
+    int bR = -1;
+    do {
+        printf("<Server> waiting for a Request...\n");
+        // Read a request from the FIFO
+        bR = read(serverFIFO, &request, sizeof(struct Request));
+
+
+        // Check the number of bytes read from the FIFO
+        if (bR == -1) {
+            printf("<Server> it looks like the FIFO is broken\n");
+        }
+        else if (bR != sizeof(struct Request) || bR == 0)
+            printf("<Server> it looks like I did not receive a valid request\n");
+        else
+            sendResponse(&request);
+
+
+    } while (bR != -1);
+
+    // the FIFO is broken, run quit() to remove the FIFO and
+    // terminate the process.
+    quit(0);
+
     return 0;
 }

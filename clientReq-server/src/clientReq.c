@@ -19,7 +19,7 @@ struct myRequest {
 }
 void helloWorld(){
     printf("Hi, I'm ClientReq program!\n");
-    printf("Ecco i servizi di sistema:\n -Stampa\n -Salva\n -Invia\n");
+    printf("Ecco i servizi di sistema:\n -stampa\n -salva\n -invia\n");
 }
 int main (int argc, char *argv[]) {
 
