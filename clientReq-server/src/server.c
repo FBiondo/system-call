@@ -5,13 +5,19 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <signal.h>
-
+#include <string.h>
+#include <time.h>
 #include "errExit.h"
 #include "request.h"
 #include "respond.h"
 
+#define MAX_SERVICE 1400000000
+unsigned long int printkey =1;
+unsigned long int savekey =MAX_SERVICE+1;
+unsigned long int recievekey =(MAX_SERVICE*2)+1;
 char *path2ServerFIFO ="/tmp/fifo_server";
 char *baseClientFIFO = "/tmp/fifo_client.";
+
 
 // the file descriptor entry for the FIFO
 int serverFIFO, serverFIFO_extra;
@@ -20,6 +26,7 @@ char * services[]= {"stampa", "salva","invia"};
 
 // the quit function closes the file descriptors for the FIFO,
 // removes the FIFO from the file system, and terminates the process
+
 void quit(int sig) {
 
     // Close the FIFO
@@ -33,15 +40,56 @@ void quit(int sig) {
     if (unlink(path2ServerFIFO) != 0)
         errExit("unlink failed");
 
-    // terminatethe process
+    // terminate the process
     _exit(0);
+}
+ void strlwr (char s[]) {
+    int c = 0;
+
+    while (s[c] != '\0') {
+        if (s[c] >= 'A' && s[c] <= 'Z') {
+                s[c] = s[c] + 32;
+        }
+        c++;
+    }
+}
+
+unsigned long int getKey(struct Request *request){
+        unsigned long int key;
+        char myService[10];
+        strcpy(myService, request->service );
+        strlwr(myService);
+        if(strcmp(services[0], &myService)==0){
+            if(printkey == MAX_SERVICE) {
+                printkey = 1;
+            }
+            return printkey++;
+        } //STAMPA
+
+        else if(strcmp(services[1], &myService)==0){
+            if(recievekey == MAX_SERVICE*2) {
+                printkey = MAX_SERVICE+1;
+            }
+            return  recievekey++;
+        }
+        else if(strcmp(services[2], &myService)==0){
+            if(savekey == MAX_SERVICE*3) {
+                printkey = MAX_SERVICE*2 + 1;
+            }
+            return savekey++;
+        }
+        else
+            return 0;// TODO RETURN 0!! IN CLIENTreQ
+
+
+        return key;
 }
 
 void sendResponse(struct Request *request) {
 
     // make the path of client's FIFO
     char path2ClientFIFO [100];
-    sprintf(path2ClientFIFO, "%s%d", baseClientFIFO, request.pid);
+    sprintf(path2ClientFIFO, "%s%d", baseClientFIFO, request->pid);
 
     printf("<Server> opening FIFO %s...\n", path2ClientFIFO);
     // Open the client's FIFO in write-only mode
@@ -53,14 +101,13 @@ void sendResponse(struct Request *request) {
 
     // Prepare the response for the client
     struct Response response;
-    response.key = getKey(request->user, request->service);
+    response.key = getKey(&request);
+    //TODO key in shared memory request->user, response.key , time_t current
 
     printf("<Server> sending a response\n");
     // Write the Response into the opened FIFO
-    if (write(clientFIFO, &response,
-              sizeof(struct Response)) != sizeof(struct Response)) {
+    if (write(clientFIFO, &response, sizeof(struct Response))!= sizeof(struct Response)) {
         errExit("<Server> write failed");
-
     }
 
     // Close the FIFO
@@ -70,7 +117,7 @@ void sendResponse(struct Request *request) {
 
 
 int main (int argc, char *argv[]) {
-
+    //TODO fork for keyManager
     printf("Server program");
 
     sigset_t mySet;
