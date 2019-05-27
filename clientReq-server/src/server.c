@@ -7,16 +7,21 @@
 #include <signal.h>
 #include <string.h>
 #include <time.h>
+#include <sys/shm.h>
+
 #include "errExit.h"
 #include "request.h"
 #include "respond.h"
 
-#define MAX_SERVICE 1400000000
+#define MAX_SERVICE_1 1400000000
+#define MAX_SERVICE_2 2800000000
+#define MAX_SERVICE_3 4200000000
+
 unsigned long int printkey =1;
-unsigned long int savekey =MAX_SERVICE+1;
-unsigned long int recievekey =(MAX_SERVICE*2)+1;
-char *path2ServerFIFO ="/tmp/fifo_server";
-char *baseClientFIFO = "/tmp/fifo_client.";
+unsigned long int savekey =MAX_SERVICE_1 + 1;
+unsigned long int recievekey =(MAX_SERVICE_2)+1;
+char *path2ServerFIFO ="tmp/fifo_server";
+char *baseClientFIFO = "tmp/fifo_client.";
 
 
 // the file descriptor entry for the FIFO
@@ -60,21 +65,21 @@ unsigned long int getKey(struct Request *request){
         strcpy(myService, request->service );
         strlwr(myService);
         if(strcmp(services[0], &myService)==0){
-            if(printkey == MAX_SERVICE) {
+            if(printkey == MAX_SERVICE_1) {
                 printkey = 1;
             }
             return printkey++;
         } //STAMPA
 
         else if(strcmp(services[1], &myService)==0){
-            if(recievekey == MAX_SERVICE*2) {
-                printkey = MAX_SERVICE+1;
+            if(recievekey == MAX_SERVICE_2) {
+                printkey = MAX_SERVICE_1+1;
             }
             return  recievekey++;
         }
         else if(strcmp(services[2], &myService)==0){
-            if(savekey == MAX_SERVICE*3) {
-                printkey = MAX_SERVICE*2 + 1;
+            if(savekey == MAX_SERVICE_3) {
+                printkey = MAX_SERVICE_2 + 1;
             }
             return savekey++;
         }

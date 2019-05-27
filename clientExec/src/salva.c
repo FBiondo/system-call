@@ -9,11 +9,11 @@
 int main (int argc, char *argv[]) {
     printf("Hi, I'm Salva program!\n");
     if(argc<2) {
-        printf("File su cui si va a salvare: %s \n", argv[i]);
+        printf("File su cui si va a salvare: %s \n", argv[1]);
         return 1;
     }
     // only write only one user
-    int fd=open(argv[1], O_WRONLY | O_CREAT| O_APPEND, S_IRWXU);
+    int fd=open(argv[1], O_WRONLY | O_CREAT| O_APPEND,);
     if(fd==-1)
         errExit("Open Failed");
     char man='\n';
@@ -22,7 +22,7 @@ int main (int argc, char *argv[]) {
         if(bW != SIZE_ARG(argv[i]))
             errExit("Write failed");
         else
-            if(write(fd,&man, sizeof(man)!= sizeof(man)))
+            if(write(fd,&man, sizeof(man))!= sizeof(man))
                 errExit("write failed");
     }
     if(close(fd)==-1)
