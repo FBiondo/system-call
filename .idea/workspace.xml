@@ -33,9 +33,8 @@
   <component name="ChangeListManager">
     <list default="true" id="53378ffd-ebe8-4fef-8563-3b3fcbb747f8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clientExec/src/salva.c" beforeDir="false" afterPath="$PROJECT_DIR$/clientExec/src/salva.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clientExec/src/stampa.c" beforeDir="false" afterPath="$PROJECT_DIR$/clientExec/src/stampa.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clientReq-server/inc/semaphore.h" beforeDir="false" afterPath="$PROJECT_DIR$/clientReq-server/inc/semaphore.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clientReq-server/inc/request.h" beforeDir="false" afterPath="$PROJECT_DIR$/clientReq-server/inc/request.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clientReq-server/src/clientReq.c" beforeDir="false" afterPath="$PROJECT_DIR$/clientReq-server/src/clientReq.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/clientReq-server/src/server.c" beforeDir="false" afterPath="$PROJECT_DIR$/clientReq-server/src/server.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -50,24 +49,6 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/clientExec/src/invia.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
-              <caret line="28" column="29" selection-start-line="28" selection-start-column="29" selection-end-line="28" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/clientReq-server/inc/request.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="18" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/clientReq-server/inc/response.h">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
@@ -77,15 +58,28 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/clientReq-server/src/errExit.c">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$PROJECT_DIR$/clientReq-server/src/server.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1586">
+              <caret line="22" column="10" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/clientReq-server/src/clientReq.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="986">
+              <caret line="58" column="29" lean-forward="true" selection-start-line="58" selection-start-column="29" selection-end-line="58" selection-end-column="29" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/clientReq-server/src/server.c">
+        <entry file="file://$PROJECT_DIR$/clientReq-server/inc/request.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="108" column="36" lean-forward="true" selection-start-line="108" selection-start-column="36" selection-end-line="108" selection-end-column="36" />
+            <state relative-caret-position="102">
+              <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -93,7 +87,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/clientExec/src/salva.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
+            <state relative-caret-position="-22">
               <caret line="7" column="42" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="42" />
             </state>
           </provider>
@@ -102,8 +96,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/clientReq-server/Makefile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="38" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
+            <state relative-caret-position="68">
+              <caret line="4" column="38" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -117,11 +111,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/clientReq-server/src/semaphore.c">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="238">
               <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clientReq-server/src/shared_memory.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="544">
+              <caret line="32" column="24" selection-start-line="32" selection-start-column="24" selection-end-line="32" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -146,17 +149,17 @@
         <option value="$PROJECT_DIR$/clientExec/inc/message.h" />
         <option value="$PROJECT_DIR$/clientExec/inc/errExit.h" />
         <option value="$PROJECT_DIR$/clientExec/src/clientExec.c" />
-        <option value="$PROJECT_DIR$/clientReq-server/src/clientReq.c" />
         <option value="$PROJECT_DIR$/clientReq-server/inc/respond.h" />
-        <option value="$PROJECT_DIR$/clientReq-server/inc/request.h" />
-        <option value="$PROJECT_DIR$/clientReq-server/Makefile" />
         <option value="$PROJECT_DIR$/clientReq-server/inc/response.h" />
         <option value="$PROJECT_DIR$/clientExec/src/salva.c" />
         <option value="$PROJECT_DIR$/clientExec/src/stampa.c" />
         <option value="$PROJECT_DIR$/clientExec/src/invia.c" />
-        <option value="$PROJECT_DIR$/clientReq-server/src/server.c" />
         <option value="$PROJECT_DIR$/clientReq-server/inc/semaphore.h" />
         <option value="$PROJECT_DIR$/clientReq-server/src/semaphore.c" />
+        <option value="$PROJECT_DIR$/clientReq-server/Makefile" />
+        <option value="$PROJECT_DIR$/clientReq-server/src/server.c" />
+        <option value="$PROJECT_DIR$/clientReq-server/inc/request.h" />
+        <option value="$PROJECT_DIR$/clientReq-server/src/clientReq.c" />
       </list>
     </option>
   </component>
@@ -165,9 +168,9 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-11" />
-    <option name="width" value="980" />
-    <option name="height" value="1031" />
+    <option name="x" value="-12" />
+    <option name="width" value="981" />
+    <option name="height" value="1032" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -175,7 +178,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -204,6 +206,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -219,6 +222,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\franc\Downloads\sistemi_operativi_template\system-call\clientReq-server\src" />
       <recent name="C:\Users\franc\Downloads\sistemi_operativi_template\system-call\clientReq-server\inc" />
       <recent name="C:\Users\franc\Downloads\sistemi_operativi_template\system-call\clientExec\inc" />
     </key>
@@ -256,7 +260,9 @@
       <workItem from="1558712600835" duration="2081000" />
       <workItem from="1558732328395" duration="2653000" />
       <workItem from="1558767882061" duration="12105000" />
-      <workItem from="1558957200289" duration="6076000" />
+      <workItem from="1558957200289" duration="7028000" />
+      <workItem from="1559130463723" duration="2445000" />
+      <workItem from="1559133596050" duration="1431000" />
     </task>
     <task id="LOCAL-00001" summary="turro98 gay">
       <created>1558614150323</created>
@@ -279,11 +285,18 @@
       <option name="project" value="LOCAL" />
       <updated>1558781198313</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="v 0.1">
+      <created>1558965057150</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1558965057152</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42803000" />
+    <option name="totallyTimeSpent" value="47631000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -298,7 +311,7 @@
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14817813" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.15303643" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -321,7 +334,7 @@
       <window_info anchor="right" id="Database" order="4" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18137652" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15303643" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -389,7 +402,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="turro98 gay" />
-    <option name="LAST_COMMIT_MESSAGE" value="turro98 gay" />
+    <MESSAGE value="v 0.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="v 0.1" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
@@ -423,24 +437,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/clientReq-server/src/clientReq.c">
+    <entry file="file://$PROJECT_DIR$/clientExec/src/invia.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" selection-start-line="15" selection-end-line="18" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/clientReq-server/inc/request.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="18" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/clientReq-server/inc/response.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="15" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
+        <state relative-caret-position="476">
+          <caret line="28" column="29" selection-start-line="28" selection-start-column="29" selection-end-line="28" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -449,15 +449,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/clientReq-server/Makefile">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="38" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
+        <state relative-caret-position="68">
+          <caret line="4" column="38" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="38" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/clientExec/src/salva.c">
+    <entry file="file://$PROJECT_DIR$/clientReq-server/src/shared_memory.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="42" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="42" />
+        <state relative-caret-position="544">
+          <caret line="32" column="24" selection-start-line="32" selection-start-column="24" selection-end-line="32" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -468,17 +468,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/clientExec/src/invia.c">
+    <entry file="file://$PROJECT_DIR$/clientReq-server/inc/response.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="28" column="29" selection-start-line="28" selection-start-column="29" selection-end-line="28" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/clientReq-server/src/server.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="108" column="36" lean-forward="true" selection-start-line="108" selection-start-column="36" selection-end-line="108" selection-end-column="36" />
+        <state relative-caret-position="102">
+          <caret line="6" column="15" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
         </state>
       </provider>
     </entry>
@@ -493,6 +486,34 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientExec/src/salva.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-22">
+          <caret line="7" column="42" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientReq-server/inc/request.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientReq-server/src/server.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1586">
+          <caret line="22" column="10" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientReq-server/src/clientReq.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="986">
+          <caret line="58" column="29" lean-forward="true" selection-start-line="58" selection-start-column="29" selection-end-line="58" selection-end-column="29" />
         </state>
       </provider>
     </entry>

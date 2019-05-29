@@ -46,8 +46,9 @@ void quit(int sig) {
         errExit("unlink failed");
 
     // terminate the process
-    _exit(0);
+    exit(0);
 }
+
  void strlwr (char s[]) {
     int c = 0;
 
@@ -86,8 +87,6 @@ unsigned long int getKey(struct Request *request){
         else
             return 0;// TODO RETURN 0!! IN CLIENTreQ
 
-
-        return key;
 }
 
 void sendResponse(struct Request *request) {
@@ -122,7 +121,7 @@ void sendResponse(struct Request *request) {
 
 
 int main (int argc, char *argv[]) {
-    //TODO fork for keyManager
+
     printf("Server program");
 
     sigset_t mySet;
@@ -137,11 +136,26 @@ int main (int argc, char *argv[]) {
     if (signal(SIGTERM, quit) == SIG_ERR)
         errExit("change signal handler failed");
 
+    //TODO shared mem
+
+
+
+
+    //TODO semaphore
+
+
+
+    //TODO fork for keyManager
+
     printf("<Server> Making FIFO...\n");
     // make a FIFO with the following permissions:
     // user:  read, write
     // group: write
     // other: no permission
+
+
+
+
     if (mkfifo(path2ServerFIFO, S_IRUSR | S_IWUSR | S_IWGRP) == -1)
         errExit("mkfifo failed");
 
@@ -151,9 +165,6 @@ int main (int argc, char *argv[]) {
     if (signal(SIGALRM, quit) == SIG_ERR ||
         signal(SIGINT, quit) == SIG_ERR)
     { errExit("change signal handlers failed"); }
-
-    // setting a 30 seconds alarm
-    alarm(30);
 
     // Wait for client in read-only mode. The open blocks the calling process
     // until another process opens the same FIFO in write-only mode
