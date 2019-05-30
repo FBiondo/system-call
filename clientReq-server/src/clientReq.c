@@ -10,9 +10,11 @@
 #include "request.h
 #include "response.h"
 #include "errExit.h"
+#include "constants.h"
 
-extern char * serverFIFO";
-extern char * clientFIFO;
+extern char * path2ServerFIFO ;
+extern char * baseClientFIFO;
+extern char* services[];
 
 
 void helloWorld(){
@@ -33,10 +35,10 @@ int main (int argc, char *argv[]) {
 
 
     //create the client fifo using the base clientFIFO path and adding his pid
-    char path2clientFIFO[25];
+    char path2clientFIFO[50];
     pid_t myPid = getpid();
     request.pid = myPid;
-    sprintf(path2clientFIFO, "%s%d", clientFIFO, myPid);
+    sprintf(path2clientFIFO, "%s%d", path2clientFIFO, myPid);
 
     printf("<Client> making FIFO...\n");
     // make a FIFO with the following permissions:
@@ -55,7 +57,7 @@ int main (int argc, char *argv[]) {
 
     // Step-3: The client sends a Request through the server's FIFO
 
-    if (write(serverFIFO, &request,sizeof(struct request))
+    if (write(sd, &request,sizeof(struct request))
             != sizeof(struct request))
         errExit("write failed");
 
@@ -66,12 +68,18 @@ int main (int argc, char *argv[]) {
 
     // Step-5: The client reads a Response from the server
     struct response response;
-    if (read(cd, &response,
-             sizeof(struct response)) != sizeof(struct response))
-        errExit("read failed");
 
-    // Step-6: The client prints the result on terminal
-    printf("<Client> The server sent the result: %d\n", response.result); //CHIAVE
+    int bR = read(cd, &response, sizeof(struct response_t));
+    if(bR == -1)
+        errExit("read failed");
+    else if(bR != sizeof(struct response_t))
+        printf("Bad response\n");
+    else { // Step-6: The client prints the result on terminal
+        printf("\n");
+        printf("Key:\t%ls\n", response.key);
+        printf("UserId:\t%s\n", response.user);
+    }
+
 
     // Step-7: The client closes its FIFO
     if (close(cd) == -1)
@@ -80,13 +88,6 @@ int main (int argc, char *argv[]) {
     // Step-8: The client removes its FIFO from the file system
     if (unlink(path2clientFIFO) != 0)
         errExit("unlink failed");
-
-
-
-
-    printf("chiave rilasciata del server: %s \n", key);
-
-
 
     return 0;
 }

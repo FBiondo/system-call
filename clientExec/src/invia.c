@@ -9,21 +9,21 @@
 #include <fcntl.h>
 #include <time.h>
 #include <unistd.h>
-
+#define STR_SIZE(X) sizeof(char)*strlen(X)
 int main (int argc, char *argv[]) {
     printf("Hi, I'm Invia program!\n");
 
     // check command line input arguments
     if (argc < 2) {
         printf("Usage: %s message_queue_key\n", argv[0]);
-        exit(1);
+        return 1;
     }
     // read the message queue key defined by user
     int msgKey= atoi(argv[1]);
 
     if(msgKey<=0){
-        printf("msg failed pls put a msg grater than zero");
-        exit(1);
+        printf(" pls put a msg grater than zero");
+        return 1;
     }
     // get the message queue identifier
     int msgid=msgget(msgKey, IPC_CREAT| S_IWUSR);
@@ -33,21 +33,29 @@ int main (int argc, char *argv[]) {
     srand(time(NULL));
     struct message msg;
     msg.mtype=rand()%100 +1;
-    msg.num_elements = argc - 2;
-
-    msg.elements= (char*)malloc (sizeof(char*)*msg.num_elements);
-    for(int i=0; i<msg.num_elements; i++){
-        msg.elements[i]=(char *)malloc(sizeof(char)*strlen(*(argv+i+2));
-        strcpy(msg.elements[i], argv[i+2]);
+    strcpy(msg.message, "");
+    for(int i=0; i<argc-2; i++) {
+        strncat(msg.message, *(argv + i + 2), STR_SIZE(*(argv + i + 2)));
+        strcat(msg.message, "\n");
     }
-    size_t messageSize= sizeof(struct message) - sizeof(long);
-    if(msgsnd(msgid, &msg, messageSize, IPC_NOWAIT)==-1){
-        if(errno== EAGAIN)
-            printf("Message que piena");
+    strcat(msg.message, "\0");
+
+    //Print to terminal the message
+    //printf("mtype: %ld\n", msg.mtype);
+    //printf("message: %s\n", msg.message);
+
+    //calculate msg size and them sends it to the msq
+    size_t msgSize = sizeof(struct message_t) - sizeof(long);
+    if(msgsnd(msqid, &msg, msgSize, IPC_NOWAIT) == -1) {
+        if(errno == EAGAIN) {
+            printf("message_queue full\n");
+            return 1;
+        }
         else
-            errExit("invio mex fallito");
-
+            errExit("msgsnd failed");
     }
-    printf("Messaggio inviato!");
+
+    printf("Message successfully sent to the message_queue\n");
+
     return 0;
 }

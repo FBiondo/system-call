@@ -11,7 +11,7 @@
 
 #include "errExit.h"
 #include "request.h"
-#include "respond.h"
+#include "response.h"
 
 #define MAX_SERVICE_1 1400000000
 #define MAX_SERVICE_2 2800000000
@@ -20,20 +20,20 @@
 unsigned long int printkey =1;
 unsigned long int savekey =MAX_SERVICE_1 + 1;
 unsigned long int recievekey =(MAX_SERVICE_2)+1;
-char *path2ServerFIFO ="tmp/fifo_server";
-char *baseClientFIFO = "tmp/fifo_client.";
-
+extern char * path2ServerFIFO;
+extern char * baseClientFIFO;
+extern char * services[];
 
 // the file descriptor entry for the FIFO
 int serverFIFO, serverFIFO_extra;
 
-char * services[]= {"stampa", "salva","invia"};
+
 
 // the quit function closes the file descriptors for the FIFO,
 // removes the FIFO from the file system, and terminates the process
 
 void quit(int sig) {
-
+    //TODO semaphore and shared mem
     // Close the FIFO
     if (serverFIFO != 0 && close(serverFIFO) == -1)
         errExit("close failed");
@@ -126,11 +126,14 @@ int main (int argc, char *argv[]) {
 
     sigset_t mySet;
     // initialize mySet to contain all signals
-    sigfillset(&mySet);
+    if(sigfillset(&mySet)== -1)
+        errExit("sigfillset failed");
     // remove SIGTERM from mySet
-    sigdelset(&mySet, SIGTERM);
+    if(sigdelset(&mySet, SIGTERM)== -1);
+        errExit("sigdelset failed");
     // blocking all signals but SIGINT
-    sigprocmask(SIG_SETMASK, &mySet, NULL);
+    if(sigprocmask(SIG_SETMASK, &mySet, NULL)== -1)
+        errExit("sigprocmask failed");
 
     // set the function sigHandler as handler for the signal SIGINT
     if (signal(SIGTERM, quit) == SIG_ERR)
