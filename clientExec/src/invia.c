@@ -9,24 +9,25 @@
 #include <fcntl.h>
 #include <time.h>
 #include <unistd.h>
+
 #define STR_SIZE(X) sizeof(char)*strlen(X)
 int main (int argc, char *argv[]) {
     printf("Hi, I'm Invia program!\n");
 
     // check command line input arguments
-    if (argc < 2) {
-        printf("Usage: %s message_queue_key\n", argv[0]);
+    if(argc < 2) {
+        printf("Usage: %s filename ...\n", *argv);
         return 1;
     }
     // read the message queue key defined by user
-    int msgKey= atoi(argv[1]);
+    int msgKey = atoi(argv[1]);
 
     if(msgKey<=0){
         printf(" pls put a msg grater than zero");
         return 1;
     }
     // get the message queue identifier
-    int msgid=msgget(msgKey, IPC_CREAT| S_IWUSR);
+    int msgid =msgget(msgKey, IPC_CREAT| S_IWUSR);
     if (msgid == -1)
         errExit("msgget failed");
 
