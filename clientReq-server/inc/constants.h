@@ -8,28 +8,25 @@
 
 #include "shared_memory.h"
 
-/*
+#ifndef SYSCALL_CONSTANTS_H
+#define SYSCALL_CONSTANTS_H
 
- */
-#define MAX_CLIENTREQ 300
+#define SEMAPHORE_KEY 11
+#define SHARED_MEM_KEY 21
+#define SHARED_NUM_KEY 22
+#define TTL 300
+#define MAX_CLIENT 1000
 
-
-/*
- * define constant values for the keys of the shared memory segments and the semaphore
- */
-#define SEMAPHOREDBKEY 2
-
-#define SHAREDMEMDBKEY 1
-#define SHAREDMEMLKEY 2
+#define SEM_SHM 0
+#define SEM_NUM 1
 
 /*
  * defining constant values which will be used by the various programs
  */
-char * path2ServerFIFO ="tmp/fifo_server";
-char * baseClientFIFO = "tmp/fifo_client.";
+char *pathFifoServer = "tmp/fifoServer";
+char *baseFifoClient = "tmp/fifoClient.";
 
 char * services[]= {"stampa", "salva","invia"};
-int numService = sizeof(services)/sizeof(char *);
 
-#endif //KEYS_H
+
 #endif //SYSTEM_CALL_CONSTANTS_H

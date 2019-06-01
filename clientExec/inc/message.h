@@ -6,8 +6,7 @@
 #define SYSTEM_CALL_MESSAGE_H
 struct message{
     long mtype;
-    int num_elements;
-    char * elements[];
+    char message[2048];
 
 };
 #endif //SYSTEM_CALL_MESSAGE_H

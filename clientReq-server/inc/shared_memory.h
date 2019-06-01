@@ -15,10 +15,10 @@
 /*
  * struct containing the entry in our shared memory
  */
-struct entry {
-    char user[50];
-    long long int key;
-    time_t timestamp;
+struct Entry {
+    char userID[100];
+    unsigned long int key;
+    time_t timeStart;
 };
 
 /// The alloc_shared_memory method creates, if it does not exist, a shared
